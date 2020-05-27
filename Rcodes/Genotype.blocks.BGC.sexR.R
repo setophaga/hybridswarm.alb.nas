@@ -43,7 +43,13 @@ bgd=data.frame(names, bg)
 nnn=paste(bgd$Generation, bgd$Gender,names,bgd$Species, sep=".")
 colnames(dd)=nnn
 sn=sort(nnn)
-heatmap(t(dd[,nnn]), Colv = NA, Rowv = NA, scale="none", col=col, cexRow=0.3)
+muller.plot=c(rev(which(dat$chrom=="Muller_A")), which(dat$chrom=="Muller_DC"),rev(which(dat$chrom=="Muller_B")),which(dat$chrom=="Muller_E"),which(dat$chrom=="Muller_F"))
+sn.plot=c(sn[131:134],sn[c(137, 139:143,146)],sn[c(130,135:136, 138, 144:145)],sn[109:128], sn[1:108])
+ddplot=dd[muller.plot,rev(sn.plot)]
+n.a=length(which(dat$chrom=="Muller_A")); n.b=length(which(dat$chrom=="Muller_B")); n.dc=length(which(dat$chrom=="Muller_DC")); n.e=length(which(dat$chrom=="Muller_E")); n.f=length(which(dat$chrom=="Muller_F")); 
+dd.plot=rbind(ddplot[1:n.a,], matrix(NA, 200, ncol(ddplot)),ddplot[(n.a+1):(n.a+n.dc),],matrix(NA, 200, ncol(ddplot)), ddplot[(n.a+n.dc+1):(n.a+n.dc+n.b),],matrix(NA, 200, ncol(ddplot)), ddplot[(n.a+n.dc+n.b+1):(n.a+n.dc+n.b+n.e),],matrix(NA, 200, ncol(ddplot)),ddplot[(n.a+n.dc+n.b+n.e+1):nrow(ddplot),])
+ddtoplot=cbind(dd.plot[,1:37], matrix(NA, nrow(dd.plot), 2),dd.plot[,38:81], matrix(NA, nrow(dd.plot), 2),dd.plot[,82:103], matrix(NA, nrow(dd.plot), 2),dd.plot[,104:107], matrix(NA, nrow(dd.plot), 2), dd.plot[,108],matrix(NA, nrow(dd.plot), 2), dd.plot[,109:145])	
+heatmap(t(ddtoplot), Colv = NA, Rowv = NA, scale="none", col=col, cexRow=0.3)
 
 #STEP 1.2 filtration: only keeping individulas with > cutoff percent of sites inferred
 #take the individuals with > 50% sites
@@ -249,6 +255,14 @@ heatmap(as.matrix(na.omit(dt.me.n)), Colv = NA, Rowv = NA, scale="none", col=col
 dt.mf.n=impute.chr(mf, dt.mf, 200000)
 heatmap(as.matrix(dt.mf.n), Colv = NA, Rowv = NA, scale="none", col=col, cexRow=0.5)
 heatmap(as.matrix(na.omit(dt.mf.n)), Colv = NA, Rowv = NA, scale="none", col=col, cexRow=0.5)
+
+###Figure supplement 2 plot @@@
+#@@@@@
+imputed.plot=data.frame(dt.ma.n[,rev(seq(1:ncol(dt.ma.n)))], matrix(NA, nrow(dt.ma.n), 100),dt.mdc.n, matrix(NA, nrow(dt.ma.n), 100),dt.mb.n[,rev(seq(1:ncol(dt.mb.n)))], matrix(NA, nrow(dt.ma.n), 200),dt.me.n, matrix(NA, nrow(dt.ma.n), 100),dt.mf.n)
+sorted.imp=sort(rownames(imputed.plot))
+ordered.imp=sorted.imp[c(128:135, 140, 141,126:127,136:139, 105:125,1:104)]
+heatmap(as.matrix(imputed.plot[rev(ordered.imp),]), Colv = NA, Rowv = NA, scale="none", col=col, cexRow=0.5)
+#@@@@@
 
 
 #step 3 cluster each chromosome
@@ -651,9 +665,9 @@ vioplot(r2.21.bo,r2.27.bo, r2.28.bo,names = rev(c("B-C:g21", "B-C:g27","B-C:g28"
 #stripchart(data.frame(r2.21.bo,r2.27.bo, r2.28.bo),vertical = F,method = "jitter", add = TRUE, pch = 16, cex=0.6, col =rgb.convert(rev(c("limegreen","forestgreen","darkolivegreen")), 0.02))  
 abline(v=0, lty=2)
 hist(r2.21.bo, col=col.cov("limegreen", 0.5), breaks=80, border=col.cov("limegreen", 1), main="", xlab=bquote(r^2~"Difference"))
-hist(r2.27.bo, xlim=c(-1, 0.7),col=col.cov("forestgreen", 0.3), breaks=100, border=col.cov("forestgreen", 0.8), add=T,lab=bquote(Delta~r^2))
-hist(r2.28.bo,  xlim=c(-1, 0.7),col=col.cov("darkolivegreen", 0.5), breaks=100, border=col.cov("darkolivegreen", 1), add=T,lab=bquote(Delta~r^2))
-legend("topleft", c("g21", "g27", "g28"), fill=c(col.cov("limegreen", 0.3), col.cov("forestgreen", 0.5), col.cov("darkolivegreen", 0.5)), border=c(col.cov("limegreen", 1), col.cov("forestgreen", 1), col.cov("darkolivegreen", 1)), cex=0.7)
+hist(r2.27.bo, xlim=c(-1, 0.7),col=col.cov("forestgreen", 0.5), breaks=100, border=col.cov("forestgreen", 0.3), add=T,lab=bquote(Delta~r^2))
+hist(r2.28.bo,  xlim=c(-1, 0.7),col=col.cov("darkolivegreen", 0.5), breaks=100, border=col.cov("darkolivegreen", 0.3), add=T,lab=bquote(Delta~r^2))
+legend("topleft", c("g21", "g27", "g28"), fill=c(col.cov("limegreen", 0.5), col.cov("forestgreen", 0.5), col.cov("darkolivegreen", 0.5)), border=c(col.cov("limegreen", 1), col.cov("forestgreen", 0.3), col.cov("darkolivegreen", 0.3)), cex=0.7)
 abline(v=0, lty=2)
 
 ###Figure 4 @@@
