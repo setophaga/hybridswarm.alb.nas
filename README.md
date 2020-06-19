@@ -20,7 +20,7 @@ Analytical Pipeline:
 2.1 hybrid sequences align to the same reference (as step 1.1) \
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
-    **$ samtools mpileup -q20 <BAM1> <BAM2> ... <BAMN>  > mpileup.txt 
+    ** "$ samtools mpileup -q20 <BAM1> <BAM2> ... <BAMN>  > mpileup.txt" 
   
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
