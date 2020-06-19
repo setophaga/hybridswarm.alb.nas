@@ -28,6 +28,7 @@ There are also a few optional arguments:\
 3. --min_p1 is the minimum number of chromosomes from population 1\
 4. --min_p2 is the minimum number of chromosomes from population 2\
 5. --freq_diff is the minimum allele frequency difference between populations for including a site\
+
 \
 Step3: processing AHMM output, filtration \
 Step4: ancestry genotyp > ancestry cluster\
