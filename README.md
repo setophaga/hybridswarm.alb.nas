@@ -11,9 +11,8 @@ Step1: parental strain/species ancestry reference\
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 \
 Code 1.1-1.2: alb03.nas00.gatk.sh \
 Code 1.3: \
-\
+ \
 vcftools.allelefreq.sh \
-\
 alb03.nas00.fixed.diff.R
 \
 Step2: Ancestry HMM\
