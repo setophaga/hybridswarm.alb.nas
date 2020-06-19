@@ -13,6 +13,8 @@ Code 1.1-1.2: alb03.nas00.gatk.sh \
 Code 1.3: \
 \
 Step2: Ancestry HMM\
+2.1 hybrid sequences align to the same reference (as step 1.1)\
+2.2 run Ancestry_HMM on the bam files and the csv file from [Step1]\
 #need ArgParse package \
 Getopt::ArgParse #package which you can install by\
 \
