@@ -10,7 +10,7 @@ Analytical Pipeline: \
 1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with **bwa** \
 1.2 genotype ancestry reference with **gatk** \
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 \
-Code 1.1-1.2: *alb03.nas00.gatk.sh* \
+Code 1.1-1.2: - *alb03.nas00.gatk.sh* \
 Code 1.3: 
   - *vcftools.allelefreq.sh* 
   - *alb03.nas00.fixed.diff.R* 
@@ -18,18 +18,18 @@ Code 1.3:
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
-    2.2.1 make *mpileup* file
-    2.2.2 make *ahmm.in* input file
-    2.2.3 rule Ancestry HMM
-#need ArgParse package \
-Getopt::ArgParse #package which you can install by \
-\
-$ sudo cpan Getopt::ArgParse \
-perl identify_AIMs.pl --ANGSD p1.p2.fixed.diff.csv --mpileup mpileup.subset.txt --output ahmm.in \
---ANGSD <input CSV file in the same format as before> \
---mpileup <input mpileup file> \
---output <output file for input to ahmm> \
-\
+   2.2.1 make *mpileup.txt* file
+    **$ samtools mpileup -q20 <BAM1> <BAM2> ... <BAMN>  > mpileup.txt \
+    
+    #Here, each bam would correspond to a single sample that you want to perform LAI on. \
+    #need ArgParse package \
+    Getopt::ArgParse #package which you can install by \\
+    $ sudo cpan Getopt::ArgParse \
+   2.2.2 make *ahmm.in* input file\
+    **$ perl identify_AIMs.pl p1.p2.fixed.diff.csv mpileup.txt > ahmm.input** \
+    
+   2.2.3 rule Ancestry HMM\
+    **$ancestry_hmm -i ahmm.input -s <sample_file> -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005** \   
 There are also a few optional arguments: \
 1. -m is the minimum distance in bp between two AIMs \
 2. -r is the recombination rate in morgans/bp \
