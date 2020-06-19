@@ -1,12 +1,12 @@
-# hybridswarm.alb.nas
-This direcotry has manuscript and submission-related information. 
-It will be a working progress until submission.
+# hybridswarm.alb.nas\
+This direcotry has manuscript and submission-related information. \
+It will be a working progress until submission.\
 
-/Rcodes directory contains the R code involved in analyzing the data, generating figures, and includes a sub-directory with input data. 
+/Rcodes directory contains the R code involved in analyzing the data, generating figures, and includes a sub-directory with input data. \
 
-Analytical Pipeline: 
-Step1: ancestry reference
-1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with [bwa]
+Analytical Pipeline: \
+Step1: ancestry reference\
+1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with [bwa]\
 1.2 genotype ancestry reference with [gatk]
 1.3 FST calculation with vcftools > SNPs with FST=1 
 
