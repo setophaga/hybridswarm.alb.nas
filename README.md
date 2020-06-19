@@ -6,13 +6,13 @@ It will be a working progress until submission.\
 
 Analytical Pipeline: \
 Step1: parental strain/species ancestry reference\
-1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with [bwa]\
+1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with *bwa \
 1.2 genotype ancestry reference with [gatk]\
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 \
 Code 1.1-1.2: alb03.nas00.gatk.sh \
 Code 1.3: \
--vcftools.allelefreq.sh \
--alb03.nas00.fixed.diff.R\
+ -vcftools.allelefreq.sh \
+ -alb03.nas00.fixed.diff.R\
 
 Step2: Ancestry HMM\
 2.1 hybrid sequences align to the same reference (as step 1.1)\
