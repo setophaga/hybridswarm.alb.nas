@@ -16,12 +16,12 @@ Analytical Pipeline:
           vcftools --vcf alb03.nas00.vcf --max-alleles 2 --max-missing 0.8  --minGQ 20  --recode --recode-INFO-all --out          
           alb03.nas00.filtered.vcf
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 
-      **vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 \
-        vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03** \
-    Code 1.1-1.2: - alb03.nas00.gatk.sh \
-    Code 1.3: \
-       - vcftools.allelefreq.sh \
-       - alb03.nas00.fixed.diff.R 
+      
+      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 
+      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03 
+      
+   Code 1.1-1.2: - alb03.nas00.gatk.sh \
+   Code 1.3: - alb03.nas00.fixed.diff.R 
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
