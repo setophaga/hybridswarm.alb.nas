@@ -9,9 +9,15 @@ Analytical Pipeline:
 **Step1: parental strain/species ancestry reference** \
 1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with **bwa** \
 1.2 genotype ancestry reference with **gatk** \
+     1.2.1 genotyping with gatk 
+          **1.2.1.gatk.sh**
+     1.2.2 filter SNPs (genotype quality>20, missing data =0, indel =0, minN =maxN alleles=2, maf=0.05)
+          
+          vcftools --vcf alb03.nas00.vcf --max-alleles 2 --max-missing 0.8  --minGQ 20  --recode --recode-INFO-all --out          
+          alb03.nas00.filtered.vcf
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 
-      **vcftools --vcf alb03.nas00.vcf --keep nas00.list --freq --out nas00
-        vcftools --vcf alb03.nas00.vcf --keep alb03.list --freq --out alb03** \
+      **vcftools --vcf alb03.nas00.filtered.vcf --keep nas00.list --freq --out nas00
+        vcftools --vcf alb03.nas00.filtered.vcf --keep alb03.list --freq --out alb03** \
     Code 1.1-1.2: - alb03.nas00.gatk.sh \
     Code 1.3: \
        - vcftools.allelefreq.sh \
