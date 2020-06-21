@@ -13,8 +13,8 @@ Analytical Pipeline:
           **1.2.1.gatk.sh**
      1.2.2 filter SNPs (genotype quality>20, missing data =0, indel =0, minN =maxN alleles=2, maf=0.05)
           
-          vcftools --vcf alb03.nas00.vcf --max-alleles 2 --max-missing 0.8  --minGQ 20  --recode --recode-INFO-all --out          
-          alb03.nas00.filtered.vcf
+     vcftools --vcf alb03.nas00.vcf --max-alleles 2 --max-missing 0.8  --minGQ 20  --recode --recode-INFO-all --out          
+     alb03.nas00.filtered.vcf
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 
       
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 
