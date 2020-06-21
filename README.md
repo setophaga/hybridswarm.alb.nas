@@ -22,13 +22,17 @@ Analytical Pipeline:
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
     **$ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt** 
-  
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
     Getopt::ArgParse #package which you can install by 
     $ sudo cpan Getopt::ArgParse 
    2.2.2 make *ahmm.in* input file \
-    **$ perl identify_AIMs.pl p1.p2.fixed.diff.csv mpileup.txt > ahmm.input** 
+     use the .frq file from 1.3 to make **p1.p2.fixed.diff.csv** file--make sure that the csv has the **following columns
+     
+     CHROM	POS	N_CHR.p1	ALLELE1	A1.freq.p1	ALLELE2	A2.freq.p1	N_CHR.p2	ALLELE1.p2	A1.freq.p2	     
+     ALLELE2.p2	A2.freq.p2
+ 
+   **$ perl identify_AIMs.pl p1.p2.fixed.diff.csv mpileup.txt > ahmm.input** 
     
    2.2.3 rule Ancestry HMM\
     **$ancestry_hmm -i ahmm.input -s <sample_file> -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
