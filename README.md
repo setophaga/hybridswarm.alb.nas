@@ -8,6 +8,7 @@ Analytical Pipeline:
 
 **Step1: parental strain/species ancestry reference** \
 1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with **bwa** \
+	code: **1.1.alb03.nas00.reference.alignment.sh** \
 1.2 genotype ancestry reference with **gatk** \
      1.2.1 genotyping with gatk 
           **1.2.1.gatk.sh**    \
@@ -31,7 +32,12 @@ Analytical Pipeline:
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
    2.1.1 align with bwa \
-    
+   	e.g.
+	
+	while read prefix;do;
+	bwa mem -M ref/kepul03FinalMaskedDrorep.fa more.fastqs/"$prefix".fastq > sam/"$prefix".sam
+	samtools view -S -b  sam/"$prefix".sam > bam/"$prefix".bam 
+	done < alb.nas.17add.list
    2.1.2 sort the bam files \
   
        while read prefix
