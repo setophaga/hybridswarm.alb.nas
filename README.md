@@ -15,7 +15,7 @@ Analytical Pipeline:
     Code 1.1-1.2: - alb03.nas00.gatk.sh \
     Code 1.3: \
        - vcftools.allelefreq.sh \
-       - alb03.nas00.fixed.diff.R \
+       - alb03.nas00.fixed.diff.R 
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
