@@ -51,6 +51,7 @@ Analytical Pipeline:
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
     **$ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt** 
+    #to input hundres of bam file here, use this code **2.2.1.print.bam.R** and copy&paste the output
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
     Getopt::ArgParse #package which you can install by 
@@ -60,8 +61,9 @@ Analytical Pipeline:
    **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diff.csv --mpileup mpileup.txt --output ahmm.input** 
     
    2.2.3 run Ancestry HMM\
-    **$ancestry_hmm -i ahmm.input -s <sample_file> -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
-
+    **$ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
+    #note: to make sample.list use **print.bam.R** and copy&paste the output
+    
     There are also a few optional arguments: 
     1. -m is the minimum distance in bp between two AIMs 
     2. -r is the recombination rate in morgans/bp 
