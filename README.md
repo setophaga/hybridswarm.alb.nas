@@ -31,9 +31,8 @@ Analytical Pipeline:
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
-   2.1.1 align with bwa \
-   	e.g.
-	
+   2.1.1 align with bwa e.g. \
+  
 	while read prefix;do;
 	bwa mem -M ref/kepul03FinalMaskedDrorep.fa more.fastqs/"$prefix".fastq > sam/"$prefix".sam
 	samtools view -S -b  sam/"$prefix".sam > bam/"$prefix".bam 
