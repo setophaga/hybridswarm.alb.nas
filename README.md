@@ -19,13 +19,15 @@ Analytical Pipeline:
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
+     2.1.1 align with bwa
+     2.1.2 sort the bam files
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
     **$ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt** 
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
     Getopt::ArgParse #package which you can install by 
-    $ sudo cpan Getopt::ArgParse 
+    $ sudo cpan Getopt::ArgParse \
    2.2.2 make *ahmm.in* input file \
      use the .frq file from 1.3 to make **p1.p2.fixed.diff.csv** file--make sure that the csv has the **following columns
      
