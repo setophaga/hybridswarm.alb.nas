@@ -34,7 +34,7 @@ Analytical Pipeline:
  
    **$ perl identify_AIMs.pl p1.p2.fixed.diff.csv mpileup.txt > ahmm.input** 
     
-   2.2.3 rule Ancestry HMM\
+   2.2.3 run Ancestry HMM\
     **$ancestry_hmm -i ahmm.input -s <sample_file> -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
 
     There are also a few optional arguments: 
