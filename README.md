@@ -30,16 +30,19 @@ Analytical Pipeline:
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
-    2.1.1 align with bwa \
-    2.1.2 sort the bam files \
-      
-          while read prefix
-           do 
-          samtools sort $prefix.bam -o $prefix.sorted.bam;
-	     samtools index -b $prefix.sorted.bam;
-	     samtools idxstats $prefix.sorted.bam > $prefix.idxstats;
-          done < prefix.list 
+   2.1.1 align with bwa \
+    
+   2.1.2 sort the bam files \
+  
+       while read prefix
+          do 
+       	samtools sort $prefix.bam -o $prefix.sorted.bam;
+	samtools index -b $prefix.sorted.bam;
+	samtools idxstats $prefix.sorted.bam > $prefix.idxstats;
+         done < prefix.list 
+   #this outout .idxstats file that contains read counts and length of each muller element
    2.1.3 sex each hybrid individual \
+   	**2.1.3.sexing.bam.indv.R** \
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
     **$ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt** 
