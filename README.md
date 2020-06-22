@@ -21,7 +21,7 @@ Analytical Pipeline:
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03 
       
-1.4 clean up the frq out put to make:to make **alb03.nas00.diff.csv** file - 1.4.alb03.nas00.fixed.diff.R 
+1.4 clean up the frq out put to make:to make **alb03.nas00.diffs.csv** file - 1.4.alb03.nas00.fixed.diff.R 
    
    --make sure that the csv has the **following columns
      
@@ -57,8 +57,8 @@ Analytical Pipeline:
     Getopt::ArgParse #package which you can install by 
     $ sudo cpan Getopt::ArgParse \
    2.2.2 make *ahmm.in* input file \
-     use the .frq file from 1.4 **alb03.nas00.diff.csv** 
-   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diff.csv --mpileup mpileup.txt --output ahmm.input** 
+     use the .frq file from 1.4 **alb03.nas00.diffs.csv** 
+   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input** 
     
    2.2.3 run Ancestry HMM\
     **$ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
