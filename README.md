@@ -57,7 +57,7 @@ Analytical Pipeline:
     Getopt::ArgParse #package which you can install by 
     $ sudo cpan Getopt::ArgParse \
    2.2.2 make *ahmm.in* input file \
-     use the .frq file from 1.4 **alb03.nas00.diffs.csv** 
+     use the .frq file from 1.4 **alb03.nas00.diffs.csv** \
    **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input** 
     
    2.2.3 run Ancestry HMM\
