@@ -21,9 +21,11 @@ Analytical Pipeline:
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03 
       
-1.4 clean up the frq out put to make:to make **alb03.nas00.diffs.csv** file - 1.4.alb03.nas00.fixed.diff.R 
+1.4 clean up the frq out put to make:to make **alb03.nas00.diffs.csv** file - **1.4.alb03.nas00.fixed.diff.R** \
+or make **alb03.nas00.diffs0.2.csv** \
+& haplotyping of neo-sex chromosome, generate **alb03.mullerCD.male.female.csv** with **1.4.alb03.nas00.nonfixed.diff.R **
    
-   --make sure that the csv has the **following columns
+   --make sure that the csv has the **following columns 
      
      CHROM	POS	N_CHR.p1	ALLELE1	A1.freq.p1	ALLELE2	A2.freq.p1	N_CHR.p2	ALLELE1.p2	A1.freq.p2	     
      ALLELE2.p2	A2.freq.p2
@@ -58,10 +60,19 @@ Analytical Pipeline:
     $ sudo cpan Getopt::ArgParse \
    2.2.2 make *ahmm.in* input file \
      use the .frq file from 1.4 **alb03.nas00.diffs.csv** \
-   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input** 
-    
+   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input** \
+   #run this line for non-fixed ancestry reference, input \
+   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.2.csv --mpileup mpileup.txt --output ahmm.input0.2 ** \ 
+   #run this line for muller CD of albm, input \
+   **$ perl identify_AIMs.pl --ANGSD alb03.mullerCD.male.female.csv --mpileup mpileup.txt --output ahmm.input.albCD ** \
+   
    2.2.3 run Ancestry HMM\
-    **$ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005**    
+    **$ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005** \
+    #run this line for non-fixed ancestry reference \
+    **$ancestry_hmm -i ahmm.input0.2 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.2 ** \
+    ##run this line for muller CD of alb \
+    **$ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.5 **
+    
     #note: to make sample.list use **print.bam.R** and copy&paste the output
     
     There are also a few optional arguments: 
