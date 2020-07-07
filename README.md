@@ -33,13 +33,13 @@ or make **alb03.nas00.diffs0.2.csv** \
 
 **Step2: Ancestry HMM** \
 2.1 hybrid sequences align to the same reference (as step 1.1) \
-   2.1.1 align with bwa e.g. \
+   2.1.1 align with bwa e.g. 
   
 	while read prefix;do;
 	bwa mem -M ref/kepul03FinalMaskedDrorep.fa more.fastqs/"$prefix".fastq > sam/"$prefix".sam
 	samtools view -S -b  sam/"$prefix".sam > bam/"$prefix".bam 
 	done < alb.nas.17add.list
-   2.1.2 sort the bam files \
+   2.1.2 sort the bam files 
   
        while read prefix
           do 
@@ -51,7 +51,7 @@ or make **alb03.nas00.diffs0.2.csv** \
    2.1.3 sex each hybrid individual \
    	**2.1.3.sexing.bam.indv.R** \
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
-   2.2.1 make *mpileup.txt* file \
+   2.2.1 make *mpileup.txt* file 
     
      samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt 
    #to input hundres of bam file here, use this code **2.2.1.print.bam.R** and copy&paste the output
@@ -59,7 +59,7 @@ or make **alb03.nas00.diffs0.2.csv** \
     #need ArgParse package 
     Getopt::ArgParse #package which you can install by 
     
-     sudo cpan Getopt::ArgParse \
+     sudo cpan Getopt::ArgParse 
    2.2.2 make *ahmm.in* input file \
      use the .frq file from 1.4 **alb03.nas00.diffs.csv** 
      
@@ -93,4 +93,4 @@ or make **alb03.nas00.diffs0.2.csv** \
 
 **Step3: processing AHMM output, filtration** \
 **Step4: ancestry genotyp > ancestry cluster** \
-**Step5: BGC** \
+**Step5: BGC** 
