@@ -80,7 +80,7 @@ or make **alb03.nas00.diffs0.2.csv** \
     
    ##run this line for muller CD of alb 
    
-    ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.5 
+    ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
     
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
