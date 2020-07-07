@@ -50,6 +50,19 @@ rows=intersect(which(albm.mulCD$G1_2==0.5),which(abs(albf.mulCD$G1_2-albf.mulCD$
 alb.mullercd=data.frame(albf.mulCD[rows,], albm.mulCD[rows,])
 alb.mullercdd=alb.mullercd[,c(1:2, 4:8,12:16)]
 colnames(alb.mullercdd)=c("CHROM", "POS", "N_CHR.f",	"ALLELE1.f"	,"A1.freq.f",	"ALLELE2.f",	"A2.freq.f",	"N_CHR.m",	"ALLELE1.m",	"A1.freq.m",  "ALLELE2.m", "A2.freq.m")
+
+#substitute the neo-Y  specific allele freq (the one different from the homo female version)
+alb.mullercdd$A1.freq.m[which(alb.mullercdd$A1.freq.f==1)]=0; 
+alb.mullercdd$A2.freq.m[which(alb.mullercdd$A1.freq.f==1)]=1
+alb.mullercdd$A1.freq.m[which(alb.mullercdd$A1.freq.f==0)]=1; 
+alb.mullercdd$A2.freq.m[which(alb.mullercdd$A1.freq.f==0)]=0
+#check that female and male allele freq should sum to 1 for the same allele
+sum(alb.mullercdd$A1.freq.m+alb.mullercdd$A1.freq.f)==nrow(alb.mullercdd)
+sum(alb.mullercdd$A2.freq.m+alb.mullercdd$A2.freq.f)==nrow(alb.mullercdd)
+#check that A1 and A2 allele freq should sum to 1 within female or within male
+sum(alb.mullercdd$A2.freq.f+alb.mullercdd$A1.freq.f)==nrow(alb.mullercdd)
+sum(alb.mullercdd$A2.freq.m+alb.mullercdd$A1.freq.m)==nrow(alb.mullercdd)
+
 head(alb.mullercdd)
 
 #write.csv(alb.mullercdd, "alb03.mullerCD.male.female.csv", row.names=F)
