@@ -52,28 +52,37 @@ or make **alb03.nas00.diffs0.2.csv** \
    	**2.1.3.sexing.bam.indv.R** \
 2.2 run Ancestry_HMM on the bam files and the csv file from **Step1** \
    2.2.1 make *mpileup.txt* file \
-    **$ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt** 
-    #to input hundres of bam file here, use this code **2.2.1.print.bam.R** and copy&paste the output
+    
+    $ samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt 
+   #to input hundres of bam file here, use this code **2.2.1.print.bam.R** and copy&paste the output
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
     Getopt::ArgParse #package which you can install by 
+    
     $ sudo cpan Getopt::ArgParse \
    2.2.2 make *ahmm.in* input file \
-     use the .frq file from 1.4 **alb03.nas00.diffs.csv** \
-   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input** \
-   #run this line for non-fixed ancestry reference, input \
-   **$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.2.csv --mpileup mpileup.txt --output ahmm.input0.2 ** \ 
-   #run this line for muller CD of albm, input \
-   **$ perl identify_AIMs.pl --ANGSD alb03.mullerCD.male.female.csv --mpileup mpileup.txt --output ahmm.input.albCD ** \
+     use the .frq file from 1.4 **alb03.nas00.diffs.csv** 
+     
+   	**$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input
+   #run this line for non-fixed ancestry reference, generate input 
+   	
+	**$ perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.2.csv --mpileup mpileup.txt --output ahmm.input0.2 
+   #run this line for muller CD of albm, generate input 
+   	
+	**$ perl identify_AIMs.pl --ANGSD alb03.mullerCD.male.female.csv --mpileup mpileup.txt --output ahmm.input.albCD 
    
-   2.2.3 run Ancestry HMM\
-    **$ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005** \
-    #run this line for non-fixed ancestry reference \
-    **$ancestry_hmm -i ahmm.input0.2 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.2 ** \
-    ##run this line for muller CD of alb \
-    **$ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.5 **
+   2.2.3 run Ancestry HMM
     
-    #note: to make sample.list use **print.bam.R** and copy&paste the output
+    $ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005
+   #run this line for non-fixed ancestry reference 
+    
+    $ancestry_hmm -i ahmm.input0.2 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.2 
+    
+   ##run this line for muller CD of alb 
+   
+    $ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.5 
+    
+   #note: to make sample.list use **print.bam.R** and copy&paste the output
     
     There are also a few optional arguments: 
     1. -m is the minimum distance in bp between two AIMs 
