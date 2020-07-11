@@ -22,8 +22,8 @@ Analytical Pipeline:
       vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03 
       
 1.4 clean up the frq out put to make:to make **alb03.nas00.diffs.csv** file - **1.4.alb03.nas00.fixed.diff.R** \
-or make **alb03.nas00.diffs0.2.csv** \
-& haplotyping of neo-sex chromosome, generate **alb03.mullerCD.male.female.csv** with **1.4.alb03.nas00.nonfixed.diff.R **
+or make **alb03.nas00.diffs0.3.csv** \
+& haplotyping of neo-sex chromosome, generate **alb03.male.female.csv** with **1.4.alb03.nas00.nonfixed.diff.R **
    
    --make sure that the csv has the **following columns 
      
@@ -66,21 +66,21 @@ or make **alb03.nas00.diffs0.2.csv** \
    	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input
    #run this line for non-fixed ancestry reference, generate input 
    	
-	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.2.csv --mpileup mpileup.txt --output ahmm.input0.2 
+	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.3.csv --mpileup mpileup.txt --output ahmm.input0.3 
    #run this line for muller CD of albm, generate input 
    	
-	 perl identify_AIMs.pl --ANGSD alb03.mullerCD.male.female.csv --mpileup mpileup.txt --output ahmm.input.albCD 
+	 perl identify_AIMs.pl --ANGSD alb03.male.female.csv --mpileup mpileup.txt --output ahmm.input.FM 
    
    2.2.3 run Ancestry HMM
     
     ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005
    #run this line for non-fixed ancestry reference 
     
-    ancestry_hmm -i ahmm.input0.2 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 --freq_diff 0.2 
+    ancestry_hmm -i ahmm.input0.3 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005  
     
    ##run this line for muller CD of alb 
    
-    ancestry_hmm -i ahmm.input.albCD -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
+    ancestry_hmm -i ahmm.input.FM -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
     
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
