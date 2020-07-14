@@ -69,7 +69,7 @@ or make **alb03.nas00.diffs0.3.csv** \
 	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.3.csv --mpileup mpileup.txt --output ahmm.input0.3 
    #run this line for muller CD of albm, generate input 
    	
-	 perl identify_AIMs.pl --ANGSD alb03.male.female.csv --mpileup mpileup.txt --output ahmm.input.FM 
+	 perl identify_AIMs.pl --ANGSD alb03.male.female.nas00.csv --mpileup mpileup.txt --output ahmm.input.albFM.nas 
    
    2.2.3 run Ancestry HMM
     
@@ -78,9 +78,9 @@ or make **alb03.nas00.diffs0.3.csv** \
     
     ancestry_hmm -i ahmm.input0.3 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005  
     
-   ##run this line for muller CD of alb 
+   ##run this line for alb neoX, neoY, and nas ancestry
    
-    ancestry_hmm -i ahmm.input.FM -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
+    ancestry_hmm -i ahmm.input.albFM.nas -s sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.5 -p 1 -3 0.5 -p 1 -3 0.5 -r 0.000005 
     
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
