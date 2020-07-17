@@ -80,7 +80,7 @@ or make **alb03.nas00.diffs0.3.csv** \
     
    ##run this line for alb 0=neoX (prop=0.25), 1=neoY(prop=0.25), and 2=nas (prop=0.5) ancestry
    
-    ancestry_hmm -i ahmm.input.albFM.nas -s sample.list -a 3 0.25 0.25 0.5 -p 0 -3 0.25 -p 1 -3 0.25 -p 2 -3 0.5 -r 0.000005 
+    ancestry_hmm -i ahmm.input.albFM.nas -s sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.3325 -p 1 -3 0.3325 -p 2 -3 0.335 -r 0.000005 
     
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
