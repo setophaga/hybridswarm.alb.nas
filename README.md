@@ -77,11 +77,13 @@ or make **alb03.nas00.diffs0.3.csv** \
    #run this line for non-fixed ancestry reference 
     
     ancestry_hmm -i ahmm.input0.3 -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005  
+    cd posterior.all.alb03.nas00
+    ancestry_hmm -i ahmm.input.sp.all -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
     
    ##run this line for alb 0=neoX (prop=0.3325), 1=neoY(prop=0.3325), and 2=nas (prop=0.0.335) ancestry
    
     cd posterior.albFM.nas
-    ancestry_hmm -i ../ahmm.input.albFM.nas -s ../sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.3325 -p 1 -3 0.3325 -p 2 -3 0.335 -r 0.000005 
+    ancestry_hmm -i ahmm.input.albneoxy.nas -s sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.3325 -p 1 -3 0.3325 -p 2 -3 0.335 -r 0.000005 
     
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
