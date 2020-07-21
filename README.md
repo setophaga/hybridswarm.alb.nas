@@ -66,7 +66,7 @@ or make **alb03.nas00.diffs0.3.csv** \
    	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input
    #run this line for non-fixed ancestry reference, generate input 
    	
-	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs0.3.csv --num_pop 2 --mpileup mpileup.txt --output ahmm.input0.3 
+	 perl identify_AIMs.pl --ANGSD alb03.nas00.all.csv --num_pop 2 --mpileup mpileup.txt --output ahmm.input.all 
    #run this line for muller CD of albm, generate input 
    	
 	 perl identify_AIMs.pl --ANGSD alb03.male.female.nas00.csv --num_pop 3 --mpileup mpileup.txt --output ahmm.input.albFM.nas 
