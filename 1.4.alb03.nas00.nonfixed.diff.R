@@ -68,13 +68,21 @@ f.a1=intersect(which(full$A1.freq.f==1), which(full$A2.freq.f==0))
 f.a2=intersect(which(full$A2.freq.f==1), which(full$A1.freq.f==0))
 fm.a1f=intersect(hetm, f.a1);fm.a2f=intersect(hetm, f.a2)
 
-dd=full[,-c(18:22)]
-dd$A1.freq.m[fm.a1f]=0; dd$A2.freq.m[fm.a1f]=1 #change the rows [neoX=A1] of A1 freq for NeoY to 0, A2 freq for NeoY to 1
-dd$A1.freq.m[fm.a1f]=0; dd$A2.freq.m[fm.a1f]=1 #change the rows [neoX=A1] of A1 freq for NeoY to 0, A2 freq for NeoY to 1
+#two population just neoX (f) and neoY (m)
+d2p=full[,-c(18:22)]
+d2p$A1.freq.m[fm.a1f]=0; d2p$A2.freq.m[fm.a1f]=1 #change the rows [neoX=A1] of A1 freq for NeoY to 0, A2 freq for NeoY to 1
+d2p$A1.freq.m[fm.a2f]=1; d2p$A2.freq.m[fm.a2f]=0 #change the rows [neoX=A2] of A2 freq for NeoY to 0, A1 freq for NeoY to 1
 
-dd$A1.freq.m=full$A1.freq.m*full$A1.freq.alb
-dd$A2.freq.m=full$A2.freq.m*full$A2.freq.alb
-dd$A1.freq.f=full$A1.freq.f*full$A1.freq.alb
-dd$A2.freq.f=full$A2.freq.f*full$A2.freq.alb
+# write.csv(d2p, "alb03.male.female.2p.csv", row.names=F)
 
-# write.csv(dd, "alb03.male.female.nas00.csv", row.names=F)
+#three population with nasuta 
+d3p=full[,-c(18:22)]
+d3p$A1.freq.m[fm.a1f]=0; d3p$A2.freq.m[fm.a1f]=1 #change the rows [neoX=A1] of A1 freq for NeoY to 0, A2 freq for NeoY to 1
+d3p$A1.freq.m[fm.a2f]=1; d3p$A2.freq.m[fm.a2f]=0 #change the rows [neoX=A2] of A2 freq for NeoY to 0, A1 freq for NeoY to 1
+#multiply allele freq of alb for m and f within alb
+d3p$A1.freq.m=full$A1.freq.m*full$A1.freq.alb
+d3p$A2.freq.m=full$A2.freq.m*full$A2.freq.alb
+d3p$A1.freq.f=full$A1.freq.f*full$A1.freq.alb
+d3p$A2.freq.f=full$A2.freq.f*full$A2.freq.alb
+
+# write.csv(d3p, "alb03.male.female.nas00.csv", row.names=F)
