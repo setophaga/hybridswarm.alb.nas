@@ -70,7 +70,7 @@ or make **alb03.nas00.diffs0.3.csv** \
    #run this line for muller CD of albm, generate input 
    	
 	 perl identify_AIMs.pl --ANGSD alb03.male.female.nas00.csv --num_pop 3 --mpileup mpileup.txt --output ahmm.input.albFM.nas 
-   
+   	 perl identify_AIMs.pl --ANGSD alb03.male.female.nas00.csv --num_pop 2 --mpileup mpileup.txt --output ahmm.input.albFM.2p 
    2.2.3 run Ancestry HMM
     
     ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005
