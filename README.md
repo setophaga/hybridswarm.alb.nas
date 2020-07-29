@@ -99,9 +99,9 @@ or make **alb03.nas00.diffs0.3.csv** \
 **Step3: processing AHMM output, filtration** \
 	3.1 hierachical haplotyping within muller CD (5 haplotypes: nas,nas; nas,neoY; nas,neoX; neoX,neoY; neoX,neoX \
 	3.2 find mode of muller CD haplotype in each individual, find recombination events, calculate het and ancestry for each muller element \
-	code: 3.Genotype.blocks.neosex.species.cluster
-**Step4: plotting and stats \
-	code: 4.introgression.recomb.R
+	code: **3.Genotype.blocks.neosex.species.cluster** \
+**Step4: plotting and stats** \
+	code: **4.introgression.recomb.R**
 	
 	
 
