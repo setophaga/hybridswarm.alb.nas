@@ -29,7 +29,6 @@ plot(dat$me.fr/dat$ma.fr,dat$total.mreads)
 autofr=(dat$mb.fr+dat$mdc.fr+dat$me.fr)/3 #note: if include F, it is weird +dat$mf.fr
 sexfr=dat$ma.fr
 sex.auto.fr=sexfr/autofr
-boxplot( dat$ma.fr,dat$mb.fr, dat$mdc.fr,dat$me.fr,dat$mf.fr, col=c("turquoise","gold", "coral"))
 
 muller.col=c( "cornflowerblue","gold", "turquoise","coral", "lightgreen") #color for muller a, cd, b, e
 rgb.convert=function(col.vect,fr)
@@ -42,14 +41,14 @@ stripchart(data.frame(dat$ma.fr, dat$mdc.fr,dat$mb.fr,dat$me.fr,dat$mf.fr), vert
 
 
 
-color.gradient <- function(x, colors=c("turquoise","hotpink"), colsteps=100) {
+color.gradient <- function(x, colors=c("forestgreen","gold"), colsteps=100) {
   return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )}
 #plot A/(B, DC, E)
 plot(sex.auto.fr,dat$total.mreads, xlim=c(0.4, 1.2), col=color.gradient(sex.auto.fr), pch=16, xlab="Muller_A/(Muller_B.DC.E)", ylab="Mapped Reads")
 abline(v=0.5, lty=2);abline(v=1, lty=2)
-abline(v=0.75, lty=2, col="turquoise", lwd=2);abline(v=.85, lty=2, col="hotpink", lwd=2)
-arrows(x=0.75, y0=quantile(dat$total.mreads, 0.99), x1 = 0.67, y1 = quantile(dat$total.mreads,.99), col="turquoise", lwd=2, cex=0.7) #, angle = 30
-arrows(x=0.85, y0=quantile(dat$total.mreads, 0.99), x1 = 0.93, y1 = quantile(dat$total.mreads,.99), col="hotpink", lwd=2, cex=0.7) #, angle = 30
+abline(v=0.7, lty=2, col="forestgreen", lwd=2);abline(v=.9, lty=2, col="gold", lwd=2)
+arrows(x=0.7, y0=quantile(dat$total.mreads, 0.99), x1 = 0.63, y1 = quantile(dat$total.mreads,.99), col="forestgreen", lwd=2, cex=0.7) #, angle = 30
+arrows(x=0.9, y0=quantile(dat$total.mreads, 0.99), x1 = 0.96, y1 = quantile(dat$total.mreads,.99), col="gold", lwd=2, cex=0.7) #, angle = 30
 
 ##Muller A/B
 plot(dat$ma.fr/dat$mb.fr,dat$total.mreads, xlim=c(0.4, 1.2), col=color.gradient(dat$ma.fr/dat$mb.fr), pch=16, xlab="Muller_A/Muller_B", ylab="Mapped Reads")
@@ -88,13 +87,16 @@ col.to.rgb=function(col.vect, fr)
 		}
 	return(rgbcol)
 	}
-boxplot(sex.auto.fr~bgd$Gender, col=col.to.rgb(c( "hotpink","turquoise", "gold"),0.2),ylab="Muller_A/(Muller_B.DC.E)", xlab="Gender")
-stripchart(sex.auto.fr~bgd$Gender,  vertical = TRUE, method = "jitter", pch = 16, col =col.to.rgb(c( "hotpink","turquoise", "gold"),0.4),  bg=as.numeric(bgd$Gender), add = TRUE)
+boxplot(sex.auto.fr~bgd$Gender, col=col.to.rgb(c( "gold","forestgreen", "grey"),0.5),ylab="Muller_A/(Muller_B.DC.E)", xlab="Gender")
+stripchart(sex.auto.fr~bgd$Gender,  vertical = TRUE, method = "jitter", pch = 16, col =col.to.rgb(c( "gold","forestgreen", "grey"),0.4),  bg=as.numeric(bgd$Gender), add = TRUE)
 
 dat=data.frame(dat, sex.auto.fr)
 dat$sex.g=rep(NA, nrow(dat))
 dat$sex.g[which(dat$sex.auto.fr>0.85)]="F"
 dat$sex.g[which(dat$sex.auto.fr<0.75)]="M"
 
-write.csv(dat, "~/Desktop/hybridswarm/old.lib.mullers.mapreads.csv")
+#write.csv(dat, "~/Desktop/hybridswarm/old.lib.mullers.mapreads.csv")
+ss=read.csv("~/Desktop/hybridswarm/old.lib.mullers.mapreads.csv")
+ss$id[which(is.na(ss$sex.g))]
+
 
