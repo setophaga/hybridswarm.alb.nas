@@ -18,7 +18,7 @@ files <- list.files(path = "/scratch/silu/abo.nas/alb03.nas00.ref/posterior.all.
 #files <- list.files(path = "~/Desktop/hybridswarm/1.pipeline/posterior.alb03.nas00.all.July21th", pattern = "*.posterior", full.names = T)
 #use this above line if run on laptop
 e.sp=read.csv(files[1], sep="\t")
-posterior.cutoff=0.3 #only take the ancestry genotype call when posterior probability is greater than the cutoff
+posterior.cutoff=0.9 #only take the ancestry genotype call when posterior probability is greater than the cutoff
 names={}; spd={}; h={}; 
 for(ind in files)
 {name=strsplit(strsplit(ind,"/")[[1]][7], ".posterior")[[1]][1] #use [8] IF run on laptop
@@ -49,6 +49,14 @@ dat.sp=data.frame(e.sp[,1:2], spd)
 dat.sp=dat.sp[order(dat.sp$chrom, dat.sp$position),]
 table(dat.sp$chrom)
 spd=dat.sp[,3:148]
+spd.het=spd
+for(j in 1:ncol(spd))
+{spd.het[which(spd[,j]==1),j]=0;spd.het[which(spd[,j]==0.5),j]=1}
+ spd.dc=spd[which(dat.sp$chrom=="Muller_DC"),];spd.het.dc=spd.het[which(dat.sp$chrom=="Muller_DC"),]
+ spd.a=spd[which(dat.sp$chrom=="Muller_A"),];spd.het.a=spd.het[which(dat.sp$chrom=="Muller_A"),]
+ spd.b=spd[which(dat.sp$chrom=="Muller_B"),];spd.het.b=spd.het[which(dat.sp$chrom=="Muller_B"),]
+ spd.e=spd[which(dat.sp$chrom=="Muller_E"),];spd.het.e=spd.het[which(dat.sp$chrom=="Muller_E"),]
+ spd.f=spd[which(dat.sp$chrom=="Muller_F"),];spd.het.f=spd.het[which(dat.sp$chrom=="Muller_F"),]
  
  d=read.csv("nasutaXabomincans.all.simple.csv") #match generation information for each individual
  #d=read.csv("~/Desktop/hybridswarm/nasutaXabomincans.all.simple.csv") #run this if on laptop
@@ -64,9 +72,26 @@ for( i in 1:length(names))
 	mm=rbind(mm, mul.map[mrow,])
 	}
 bgd=data.frame(names, bg, mm)
+length((colMeans(spd, na.rm=T)))
+bgd$HI=(colMeans(spd, na.rm=T))
+bgd$het=(colMeans(spd.het, na.rm=T))
 d$Gendersim=as.character(d$Gender); d$Gendersim[which(d$Gendersim=="female")]="F"; d$Gendersim[which(d$Gendersim=="male")]="M"; 
 bgd$sex.g[which(is.na(as.character(bgd$sex.g)))]=d$Gendersim[which(is.na(as.character(bgd$sex.g)))]
-
+bgd$hi.a=(colMeans(spd.a, na.rm=T))
+bgd$hi.dc=(colMeans(spd.dc, na.rm=T))
+bgd$hi.e=(colMeans(spd.e, na.rm=T))
+bgd$hi.b=(colMeans(spd.b, na.rm=T))
+bgd$hi.f=(colMeans(spd.f, na.rm=T))
+bgd$het.a=(colMeans(spd.het.a, na.rm=T))
+bgd$het.dc=(colMeans(spd.het.dc, na.rm=T))
+bgd$het.e=(colMeans(spd.het.e, na.rm=T))
+bgd$het.b=(colMeans(spd.het.b, na.rm=T))
+bgd$het.f=(colMeans(spd.het.f, na.rm=T))
+#correct for sex mis-identification
+prob=intersect(which(bgd$sex.auto.fr>0.7),which(bgd$sex.auto.fr<0.9)) 
+ok=c(intersect(which(bgd$sex.g[prob]=="F"), which(bgd$Gender[prob]=="male")), intersect(which(bgd$sex.g[prob]=="M"), which(bgd$Gender[prob]=="male")))
+prob=prob[-ok]
+bgd$sex.g[prob]=NA
 nnn=paste( bgd$sex.g,bgd$Generation,bgd$Species, names,sep=".")
 colnames(spd)=nnn
 write.csv(spd, "alb03Xnas00.hybrids.haplotype.csv")
@@ -74,17 +99,16 @@ write.csv(bgd, "alb03Xnas00.hybrids.backgroundinfo.csv")
 
 sn=sort(nnn) #sort by generation id
 #make string with row numbers ordered by chromosomes in the right order with respect to the fusions
-sf=sn[1:70]; sm=sn[71:146]
-sf.plot=sf[c(63:65,66:70, 60:62, 1:59)]
-sm.plot=sm[c(68:70,71:76, 50:67,1:49 )]
-
+sf=sn[1:65]; sm=sn[66:140]
+sf.plot=sf[c(59:65,56:58, 1:55)]
+sm.plot=sm[c(67:69,70:75, 49:66,1:48 )]
 
 spd.f=spd[,rev(sf.plot)]
 spd.m=spd[,rev(sm.plot)]
 col.sp <- colorRampPalette(c("royalblue4","turquoise"))(100)
-jpeg(filename="female.heatmap.jpeg",width=8,height=8,units="in",res=500)
+jpeg(filename="female.heatmap.jpeg",width=12,height=8,units="in",res=500)
 mar=c(1,1,1,1)
-heatmap(t(spd.f) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
+heatmap(t(spd[,rev(sf.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
 dev.off()
 jpeg(filename="female.muller.cd.heatmap.jpeg",width=8,height=8,units="in",res=500)
 mar=c(1,1,1,1)
@@ -92,15 +116,14 @@ heatmap(t(spd.f[which(dat.sp$chrom=="Muller_DC"),]) , Colv = NA, Rowv = NA, scal
 dev.off()
 
 
-jpeg(filename="male.heatmap.jpeg",width=8,height=8,units="in",res=500)
+jpeg(filename="male.heatmap.jpeg",width=12,height=8,units="in",res=500)
 mar=c(1,1,1,1)
-heatmap(t(spd.m) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
+heatmap(t(spd[,rev(sm.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
 dev.off()
 jpeg(filename="male.muller.cd.heatmap.jpeg",width=8,height=8,units="in",res=500)
 mar=c(1,1,1,1)
 heatmap(t(spd.m[which(dat.sp$chrom=="Muller_DC"),]) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
 dev.off()
-
 
 spd.dc.f=spd.f[which(dat.sp$chrom=="Muller_DC"),]
 spd.dc.m=spd.m[which(dat.sp$chrom=="Muller_DC"),]
@@ -146,7 +169,7 @@ spd.neosex=dat.neosex[,3:148]
 nnn=paste( bgd$sex.g,bgd$Generation,bgd$Species,names, sep=".")
 colnames(spd.neosex)=nnn
 
-write.csv(spd.neosex, "alb03Xnas00.hybrids.neosex.haplotype.csv")
+#write.csv(spd.neosex, "alb03Xnas00.hybrids.neosex.haplotype.csv")
 
 spd.f.neosex=spd.neosex[,rev(sf.plot)]
 spd.m.neosex=spd.neosex[,rev(sm.plot)]
@@ -168,7 +191,6 @@ jpeg(filename="male.muller.cd.neosex.heatmap.jpeg",width=8,height=8,units="in",r
 mar=c(1,1,1,1)
 heatmap(t(spd.m.neosex[which(dat.neosex$chrom=="Muller_DC"),]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex, cexRow=0.3)
 dev.off()
-
 
 spd.neosex.dc.f=spd.neosex.f[which(dat.neosex$chrom=="Muller_DC"),]
 spd.neosex.dc.m=spd.neosex.m[which(dat.neosex$chrom=="Muller_DC"),]
@@ -200,10 +222,9 @@ dev.off()}
 #indv="F.28.A1.DBZW33_163_N711_S503_S59_L008_R1_001" #column name from nnn
 #"F.28.A1.DBZW33_163_N711_S503_S59_L008_R1_001"                  
 # [36] "F.28.A1.DBZW33_164_N711_S504_S83_L008_R1_001" 
-sp.ancestry.block.indv=function(indv)
-{indv.an=spd.sp.dc[,indv] #ancestry at muller cd
+sp.ancestry.block.indv=function(indv.an)
+{ #ancestry at muller cd
 #names(indv.an)=dat.sp.cd$position
-indv.neosex=spd.neosex.dc[,indv] #neosex haplotype at muller cd
 indv.an.switches=abs(sign(indv.an-c(indv.an[-1],indv.an[1])))
 pos.switch=dat.sp.cd$position[which(indv.an.switches==1)];lastswitch=tail(pos.switch,1)
 if(length(pos.switch)==0)
@@ -227,7 +248,7 @@ return(anblock)
 #&&&&&&&&&&&&&&& #&&&&&&&&&&&&&&& 
 update.ancestry=function(indv)
 {#&&&&&&&&&&&&&&& Homozygotes (nas, nas) 
-anblock=sp.ancestry.block.indv(indv)
+anblock=sp.ancestry.block.indv(indv.an=spd.sp.dc[,indv])
 #change indv.neosex within (nas, nas) ranges into 0
 indv.neosex=spd.neosex.dc[,indv] 
 nas.neosex.rows={};indv.neosex.new=rep(NA, length(indv.neosex))
@@ -274,8 +295,8 @@ nas.a1.rows=which(nas.anc>0);nas.a2.rows=which(nas.anc<0); nas.na.rows=which(nas
 neox.a1.rows=intersect(which(neox.anc>0),which(neox.anc>neoy.anc));neox.a2.rows=intersect(which(neox.anc<0), which(neox.anc<neoy.anc));neox.na.rows=which(neox.anc==0);
 neoy.a1.rows=intersect(which(neoy.anc>0),which(neoy.anc>neox.anc));neoy.a2.rows=intersect(which(neoy.anc<0), which(neoy.anc<neox.anc));neoy.na.rows=which(neoy.anc==0);
 length(intersect(neox.a1.rows,neoy.a1.rows)) #check neox.a1 be mutually exclusive to neoy.a1
-neox.nas.rows=union(intersect(intersect(neox.a1.rows, rows), nas.a1.rows), intersect(intersect(neox.a2.rows, rows), nas.a2.rows)) 
-neoy.nas.rows=union(intersect(intersect(neoy.a1.rows, rows), nas.a1.rows), intersect(intersect(neoy.a2.rows, rows), nas.a2.rows))
+neox.nas.rows=union(intersect(intersect(neox.a1.rows, nas.a1.rows), rows), intersect(intersect(neox.a2.rows, nas.a2.rows), rows)) 
+neoy.nas.rows=union(intersect(intersect(neoy.a1.rows, nas.a1.rows), rows), intersect(intersect(neoy.a2.rows, nas.a2.rows), rows))
 length(intersect(neoy.nas.rows, neox.nas.rows))#check this should be zero
 neoy.nas.pos=refd.cd$POS[neoy.nas.rows]#nas=neoY, so (neoX.alb, mullercd.nas)=0.5
 neox.nas.pos=refd.cd$POS[neox.nas.rows]#nas=neoX, so (neoY.alb, mullercd.nas)=0.25
@@ -305,6 +326,50 @@ plot.5hap=updated.sp.neosex
 	 print(length(plot.5hap[which(plot.5hap[,j]==(-1)),j]))
 	  plot.5hap[which(plot.5hap[,j]==(-1)),j]=NA}
  }
+ colnames(plot.5hap)=nnn
+#count number of recombinations
+rec={}; info.sites={};mode={};mode.freq={}; s0={};s0.25={};s0.5={};s0.75={};s1={};l0={};l0.25={};l0.5={};l0.75={};l1={};
+for(j in 1:length(nnn))
+{recd=sp.ancestry.block.indv(plot.5hap[,nnn[j]])
+md=Mode(plot.5hap[,nnn[j]], na.rm=T)
+mode=c(mode, md[1])
+mode.freq=c(mode.freq, attributes(md)$freq)
+rec=c(rec, nrow(recd))
+s0=c(s0, length(which(recd$ancestry==0)))
+l0=c(l0,sum(recd$end[which(recd$ancestry==0)]-recd$begin[which(recd$ancestry==0)]))
+s0.25=c(s0.25, length(which(recd$ancestry==0.25)))
+l0.25=c(l0.25,sum(recd$end[which(recd$ancestry==0.25)]-recd$begin[which(recd$ancestry==0.25)]))
+s0.5=c(s0.5, length(which(recd$ancestry==0.5)))
+l0.5=c(l0.5,sum(recd$end[which(recd$ancestry==0.5)]-recd$begin[which(recd$ancestry==0.5)]))
+s0.75=c(s0.75, length(which(recd$ancestry==0.75)))
+l0.75=c(l0.75,sum(recd$end[which(recd$ancestry==0.75)]-recd$begin[which(recd$ancestry==0.75)]))
+s1=c(s1, length(which(recd$ancestry==1)))
+l1=c(l1,sum(recd$end[which(recd$ancestry==1)]-recd$begin[which(recd$ancestry==1)]))
+info.sites=c(info.sites,length(na.omit(plot.5hap[,j])))
+}
+recomb=data.frame(nnn, bgd$name,bgd$HI, bgd$het,rec, info.sites, bgd$Generation, bgd$sex.g ,mode,mode.freq, s0, s0.25, s0.5, s0.75, s1,l0, l0.25, l0.5, l0.75, l1)
+colnames(recomb)=c("nnn", "name", "HI", "het","rec", "info.sites", "generation", "sex", "mode","mode.freq","s0", "s0.25", "s0.5", "s0.75", "s1","l0", "l0.25", "l0.5", "l0.75", "l1")
+recomb.d=data.frame(recomb, bgd)
+write.csv(recomb.d, "hi.recomb.csv")
+jpeg(filename="recomb.hi.jpeg",width=12,height=8,units="in",res=500)
+plot(recomb$HI, -log(recomb$rec/recomb$info.sites, base=10))
+dev.off()
+
+
+#plot Muller CD haplotype with individuals that have >30% of the haplotypes
+all.plot=nnn[-which(recomb.d$info.sites<max(recomb.d$info.sites, na.rm=T)*0.5)]
+splot=sort(all.plot)
+splot.f=splot[c(41:47,39:40,1:38)]; splot.m=splot[c(83:90,70:82,48:69)]
+col.neosex.sp <- colorRampPalette(c("aquamarine2","darkolivegreen3", "gold", "deepskyblue3", "darkslateblue"))(5)
+jpeg(filename="mullercd.5hap.female.0.5moresites.heatmap.jpeg",width=12,height=8,units="in",res=500)
+mar=c(1,1,1,1)
+heatmap(t(plot.5hap[,rev(splot.f)]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
+dev.off()
+
+jpeg(filename="mullercd.5hap.male.0.5moresites.heatmap.jpeg",width=12,height=8,units="in",res=500)
+mar=c(1,1,1,1)
+heatmap(t(plot.5hap[,rev(splot.m)]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
+dev.off()
 
 sn=sort(nnn) #sort by generation id
 for(j in sf.plot)
@@ -324,6 +389,60 @@ mar=c(1,1,1,1)
 heatmap(t(plot.5hap[,rev(sm.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
 dev.off()
 
-plot(x=NULL, y=NULL)
-legend("topright", c("0=(CD_nas, CD_nas)", "0.25=(NeoY_alb, CD_nas)", "0.5=(NeoX_alb, CD_nas)", "0.75=(NeoX_alb, NeoY_alb)", "1=(NeoX_alb, NeoX_alb)"), fill=c("aquamarine2","darkolivegreen3", "gold", "deepskyblue3", "darkslateblue"))
+#plot(x=NULL, y=NULL)
+#legend("topright", c("0=(CD_nas, CD_nas)", "0.25=(NeoY_alb, CD_nas)", "0.5=(NeoX_alb, CD_nas)", "0.75=(NeoX_alb, NeoY_alb)", "1=(NeoX_alb, NeoX_alb)"), fill=c("aquamarine2","darkolivegreen3", "gold", "deepskyblue3", "darkslateblue"))
+
+jpeg(filename="mullercd.5hap.male.heatmap.jpeg",width=12,height=8,units="in",res=500)
+mar=c(1,1,1,1)
+heatmap(t(plot.5hap[,rev(sm.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+############### For future, (if imputation is needed)
+##Impute
+impute.chr=function(pdc, dt, bin) #pdc=positions for each muller element; dt=genotype matrix; updated.sp.neosex bib=2000000 
+{bins=round((pdc[length(pdc)]-pdc[1])/bin)+1
+start=pdc[1]
+#jpeg(filename="imputation.jpeg",width=12,height=8,units="in",res=500)
+#plot(pdc, dt[,27])
+for(b in 1:bins)
+	{end=start+bin
+	cls=intersect(which(pdc>(start-1)),which(pdc<end))
+	#abline(v=end, col="red")
+	for(j in 1:ncol(dt))
+		{sub=mode(dt[cls,j]) #if use mean(), need to add "na.rm=T"
+		nas=which(is.na(dt[cls,j]))
+		if(length(nas)>0)
+			{dt[cls,j][nas]=sub}
+		}
+	start=start+bin
+	#dev.off()
+	} ;return(dt)
+}
+imputed.sp.neosex.block=impute.chr(dat.neosex.cd$position, updated.sp.neosex, bin=2000000)
+imputed.sp.neosex=apply(imputed.sp.neosex.block, c(1,2), as.numeric)
+#levels(as.factor(imputed.sp.neosex.block))
+col.neosex.sp <- colorRampPalette(c("grey","aquamarine2","darkolivegreen3", "gold", "deepskyblue3", "darkslateblue"))(6)
+jpeg(filename="mullercd.5hap.female.heatmap.imputed.jpeg",width=12,height=8,units="in",res=500)
+mar=c(1,1,1,1)
+heatmap(t((imputed.sp.neosex[,rev(sf.plot)])), Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
+dev.off()
+
+jpeg(filename="mullercd.5hap.male.heatmap.imputed.jpeg",width=12,height=8,units="in",res=500)
+mar=c(1,1,1,1)
+heatmap(t(imputed.sp.neosex[,rev(sm.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.neosex.sp, cexRow=0.3)
+dev.off()
+
+
+
 
