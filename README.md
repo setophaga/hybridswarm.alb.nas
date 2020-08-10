@@ -54,6 +54,10 @@ or make **alb03.nas00.diffs0.3.csv** \
    2.2.1 make *mpileup.txt* file 
     
      samtools mpileup -q20 ind1.bam ind2.bam [...] indn.bam  > mpileup.txt 
+   or use a bamlist containing bam file paths in each line \
+   
+   	samtools mpileup -q20 --bam-list plate1.bamlistwothersp > mpileup.newlib.p1.txt
+
    #to input hundres of bam file here, use this code **2.2.1.print.bam.R** and copy&paste the output
     #Here, each bam would correspond to a single sample that you want to perform LAI on. 
     #need ArgParse package 
