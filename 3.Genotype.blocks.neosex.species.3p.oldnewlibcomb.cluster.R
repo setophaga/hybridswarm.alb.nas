@@ -48,7 +48,8 @@ dat.sp=data.frame(e.sp[,1:2], spd)
 dat.sp=dat.sp[order(dat.sp$chrom, dat.sp$position),]
 table(dat.sp$chrom)
 spd=dat.sp[,13:ncol(dat.sp)]
-
+dat.
+full.name=
 d=read.csv("alb03.nas00.X1.newold.lib.252.csv") #match generation information for each  
  bg={}; 
 for( i in 11:length(names))
@@ -70,6 +71,7 @@ sf.plot=sf[c(147:154,127:146, 1:126)]
 sm.plot=sm[c(68:76, 50:67,1:49 )]
 spd.f=spd[,rev(sf.plot)]
 spd.m=spd[,rev(sm.plot)]
+
 col.sp <- colorRampPalette(c("coral4","deepskyblue", "gold", "chartreuse3", "lightslateblue", "aquamarine2"))(6)
 
 plot(x=NULL, y=NULL)
@@ -94,5 +96,80 @@ jpeg(filename="newoldlib.female.muller.cd.heatmap.jpeg",width=8,height=8,units="
 mar=c(1,1,1,1)
 heatmap(t(spd[which(dat.sp$chrom=="Muller_DC"),rev(sf.plot)]) , Colv = NA, Rowv = NA, scale="none", col=col.sp, cexRow=0.3)
 dev.off()
+
+
+###count ancestry turnovers in mullercd
+sp.ancestry.recomb=function(indv, muller)
+{ #ancestry at muller cd
+indv.an=spd[which(dat.sp$chrom==muller),which(nnn==indv)]
+positions=dat.sp[which(dat.sp$chrom==muller),2]
+pos.notna=positions[which(is.na(indv.an)==0)]
+an.notna=na.omit(indv.an)
+pos.switch=pos.notna[which(abs((an.notna-c(an.notna[-1],an.notna[1])))>0)]
+if(length(pos.switch)==0)
+{if(length(an.notna)==0){anblock=data.frame(ancestry=NA,begin=NA,end=NA)}
+else{anblock=data.frame(ancestry=an.notna[1], begin=pos.notna[1], end=tail(pos.notna, 1))}}
+else{ancestry=an.notna[1]; begin=pos.notna[1]; end=pos.switch[1]; lastswitch=tail(pos.switch,1)
+	for(p in pos.switch)
+		{if(p==lastswitch)
+			{if(length(which(pos.notna>lastswitch))>0)
+				{ancestry=c(ancestry, an.notna[which(pos.notna==p)+1])#start from the second block
+				begin=c(begin,pos.notna[which(pos.notna==p)+1])
+				end=c(end, tail(pos.notna, 1))}
+			else{break}}
+		else #make a data.frame containing begin and end position of ancestry blocks
+			{ancestry=c(ancestry, an.notna[which(pos.notna==p)+1])#start from the second block
+			begin=c(begin,pos.notna[which(pos.notna==p)+1])
+			end=c(end, (pos.switch[which(pos.switch==p)+1]+1))}
+		};anblock=data.frame(ancestry, begin, end)}	
+return(anblock)
+}
+
+
+
+sp.ancestry.sum=function(indv, muller)
+{ #ancestry at muller cd
+indv.an=spd[which(dat.sp$chrom==muller),which(nnn==indv)]
+t=table(indv.an)/sum(table(indv.an))
+block=rep(0, 6); names(block)=seq(1:6)
+for(n in names(t))
+	{block[n]=t[n]} #block[n]=t[n]
+return(block)
+}
+
+anc.switch=function(sf.plot){
+mullera.rec={};mullerb.rec={};mullercd.rec={};mullere.rec={};mullerf.rec={};gen={}; p={}
+for(i in sf.plot)
+{mullercd.rec=c(mullercd.rec,nrow(sp.ancestry.recomb(i, "Muller_DC")))
+mullera.rec=c(mullera.rec,nrow(sp.ancestry.recomb(i, "Muller_A")))
+mullerb.rec=c(mullerb.rec,nrow(sp.ancestry.recomb(i, "Muller_B")))
+mullere.rec=c(mullere.rec,nrow(sp.ancestry.recomb(i, "Muller_E")))
+mullerf.rec=c(mullerf.rec,nrow(sp.ancestry.recomb(i, "Muller_F")))
+gen=c(gen, bgd$Generation[which(i==nnn)])
+p=c(p, as.character(bgd$prefix[which(i==nnn)]))
+}
+dd.f=data.frame(sf.plot,p, gen, mullera.rec,mullerb.rec,mullercd.rec,mullere.rec,mullerf.rec)
+return(dd.f)}
+dd.f=anc.switch(sf.plot)
+dd.m=anc.switch(sm.plot)
+
+anc.sum=function(sf.plot){
+d={}; gen={}; p={}
+for(i in sf.plot)
+{d=rbind(d,sp.ancestry.sum(i, "Muller_DC"))
+gen=c(gen, bgd$Generation[which(i==nnn)])
+p=c(p, as.character(bgd$prefix[which(i==nnn)]))
+}
+colnames(d)=c("albX.albX", "albX.albY", "albX.nas","albY.albY","albY.nas", "nas.nas")
+sumd=data.frame(sf.plot, p, gen,d)
+return(sumd)}
+sumd.f=anc.sum(sf.plot)
+sumd.m=anc.sum(sm.plot)
+
+d.f=data.frame(sumd.f, dd.f)
+d.m=data.frame(sumd.m, dd.m)
+write.csv(d.f, "sum.switch.oldnewlib.mullercd.3anc.female.csv")
+write.csv(d.m, "sum.switch.3anc.mullerced.oldnewlib.male.csv")
+
 
 
