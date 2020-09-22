@@ -105,7 +105,7 @@ or make **alb03.nas00.diffs0.3.csv** \
 	3.2 find mode of muller CD haplotype in each individual, find recombination events, calculate het and ancestry for each muller element \
 	code: **3.Genotype.blocks.neosex.species.cluster.R** \
 **Step4: plotting and stats** \
-	code: **4.1.introgression.recomb.R** \
+	code: **4.1.recomb.oldnew.3anc.R** \
 	**4.2. inter-chromosomal LD and network** \
 	 **4.2.Kmeans.LD.R** \
 	steps: remove false individuals (excessive recombination) -> kmeans cluster the haplotype blocks -> LD among clusters (r^2 for earlier generations [1:16] and later generations [17-28]). \
