@@ -108,7 +108,8 @@ or make **alb03.nas00.diffs0.3.csv** \
 	code: **4.1.introgression.recomb.R** \
 	**4.2. inter-chromosomal LD and network** \
 	 **4.2.Kmeans.LD.R** \
-	steps: remove false individuals (excessive recombination)-> kmeans cluster the haplotype blocks -> LD among clusters (r^2 for earlier generations [1:16] and later generations [17-28]). Plot significant pair-wise LD network.\
+	steps: remove false individuals (excessive recombination) -> kmeans cluster the haplotype blocks -> LD among clusters (r^2 for earlier generations [1:16] and later generations [17-28]). \
+	Plot significant pair-wise LD network.\
 	
 	
 	
