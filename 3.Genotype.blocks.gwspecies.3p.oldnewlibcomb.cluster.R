@@ -1,4 +1,4 @@
-
+#LAST UPDATE: OCT. 19th. 2020
 
 # install.packages("https://cran.r-project.org/bin/macosx/contrib/4.0/fpc_2.2-5.tgz",method="libcurl")
 # install.packages("~/Downloads/mclust_5.4.6.tar")
@@ -143,11 +143,11 @@ return(anblock)
 }
 
 for(i in 1:length(nnn))
-{bgd$mullercd.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_DC"))
-bgd$mullera.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_A"))
-bgd$mullerb.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_B"))
-bgd$mullere.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_E"))
-bgd$mullerf.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_F"))
+{bgd$mullercd.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_DC"))-1
+bgd$mullera.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_A"))-1
+bgd$mullerb.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_B"))-1
+bgd$mullere.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_E"))-1
+bgd$mullerf.rec[i]=nrow(sp.ancestry.recomb(nnn[i], "Muller_F"))-1
 }
 write.csv(bgd, "alb03Xnas00.hybrids.3anc.backgroundinfo.gw.newoldlib.sep2020.csv")
 
