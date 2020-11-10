@@ -70,12 +70,12 @@ or make **alb03.nas00.diffs0.3.csv** \
    	 perl identify_AIMs.pl --ANGSD alb03.nas00.diffs.csv --mpileup mpileup.txt --output ahmm.input
    #run this line for non-fixed ancestry reference, generate input 
    	
-	 perl identify_AIMs.pl --ANGSD alb03.nas00.all.csv --num_pop 2 --mpileup mpileup.txt --output ahmm.input.all 
+	 perl identify_AIMs.aug.2020.pl --ANGSD alb03.nas00.all.csv --num_pop 2 --mpileup mpileup.txt --output ahmm.input.all 
    #run this line for neo-X and neo-Y-specific sites albm, generate input 
    	 
 	 perl identify_AIMs.pl --ANGSD alb03.male.female.2p.csv --mpileup mpileup.txt --output ahmm.input.albFM.2p 
 	 #this line below is to haplotype in parallele
-	 perl identify_AIMs.pl --ANGSD alb03.male.female.nas00.csv --num_pop 3 --mpileup mpileup.txt --output ahmm.input.albFM.nas 
+	 perl identify_AIMs.aug.2020.pl --ANGSD alb03.male.female.nas00.csv --num_pop 3 --mpileup mpileup.txt --output ahmm.input.albFM.nas 
    	
    2.2.3 run Ancestry HMM
     
