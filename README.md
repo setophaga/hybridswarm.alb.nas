@@ -86,11 +86,14 @@ or make **alb03.nas00.diffs0.3.csv** \
     cd posterior.all.alb03.nas00
     ancestry_hmm -i ahmm.input.sp.all -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005 
     
-   ##run this line for alb 0=neoX (prop=0.3325), 1=neoY(prop=0.3325), and 2=nas (prop=0.0.335) ancestry
+   ##run this line for alb 0=neoX (prop=0.3325), 1=neoY(prop=0.3325), and 2=nas (prop=0.335) ancestry
    
     cd posterior.albFM.nas
-    ancestry_hmm -i ahmm.input.albneoxy.nas -s sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.3325 -p 1 -3 0.3325 -p 2 -3 0.335 -r 0.000005 
+    ancestry_hmm -i ahmm.input.albneoxy.nas -s sample.list -a 3 0.3325 0.3325 0.335 -p 0 -3 0.3325 -p 1 -3 0.3325 -p 2 -3 0.335 -r 0.000005 \
     
+    ancestry_hmm -i ahmm.input.albneoxy.nas -s sample.list -a 3 0.25 0.25 0.5 -p 0 3 0.25 -p 1 0.000000001 0.25 -p 2 1000 0.5 -r 0.000005
+    #setting the admixture time to a very small number 0.000000001 for the Neo-Y chromosome. The idea is that it should never recombine, so by turning the admixture time way down, it should help suppress transitions on this chromosome. 
+
    #note: to make sample.list use **print.bam.R** and copy&paste the output
     
     There are also a few optional arguments: 
