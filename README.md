@@ -78,7 +78,11 @@ or make **alb03.nas00.diffs0.3.csv** \
 	 perl identify_AIMs.aug.2020.pl --ANGSD alb03.male.female.nas00.csv --num_pop 3 --mpileup mpileup.txt --output ahmm.input.albFM.nas 
    	
    2.2.3 run Ancestry HMM
-    
+    #make sample.list in R(add "2" for diploids) \
+    		
+	s=read.table("prefix.list", header=F)
+	sink("sample.list"); for(i in 1:nrow(s)){cat(as.character(s$V1[i]), " 2", "\n")};sink()
+   #use the sample.list and ahmm.input to run AncestryHMM
     ancestry_hmm -i ahmm.input -s sample.list -a 2 0.5 0.5 -p 0 -3 0.5 -p 1 -3 0.5 -r 0.000005
    #run this line for non-fixed ancestry reference 
     
