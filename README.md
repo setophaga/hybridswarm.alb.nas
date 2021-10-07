@@ -7,6 +7,7 @@ It will be a working progress until submission.
 Analytical Pipeline: 
 
 **Step1: parental strain/species ancestry reference** \
+1.0 trim the reads with trim.sh
 1.1 strain-specific high depth and coverage references aligned to reference (the nearest outgroup)with **bwa** \
 	code: **1.1.alb03.nas00.reference.alignment.sh** \
 1.2 genotype ancestry reference with **gatk** \
