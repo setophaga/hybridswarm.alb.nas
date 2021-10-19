@@ -1,12 +1,3 @@
-#parental lines alb03 and nas00
-/jbods/data01/READS/DBMN21_22/DBMN21-D_S4_L007_R*_001.fastq.gz	albomicans	15112-1751.03	female
-/jbods/data01/READS/DBMN30/DBMN30-16_S49_L008_R*_001.fastq.gz	albomicans	15112-1751.03	Male
-/jbods/data01/READS/DBMN30/DBMN30-19_S51_L008_R*_001.fastq.gz	albomicans	15112-1751.03	Male
-/jbods/data01/READS/DBCC035/DBCC035C4_S68_L008_R1_001.fastq.gz	D. nasuta	00	M
-/jbods/data01/READS/DBMN21_22/DBMN21-B_S2_L007_R*_001.fastq.gz	nasuta
-
-
-
 #Alignment
 ref="/scratch/silu/abo.nas/abo.nas.hybrids/ref/kepul03FinalMaskedDrorep.fa"
 
@@ -26,6 +17,9 @@ samtools sort DBCC035C4_S68_L008.bam -o DBCC035C4_S68_L008.sorted.bam
 samtools index -b DBCC035C4_S68_L008.sorted.bam
 samtools idxstats DBCC035C4_S68_L008.sorted.bam > DBCC035C4_S68_L008.idxstats
 
+#add read group for GATK input
+samtools sort bam.albomref/"$prefix".bam -o bam.albomref/"$prefix".sorted.bam
+/scratch/datmai/bin/000program_files/jre1.8.0_25/bin/java -jar /scratch/silu/x01.albom.nas/tools/picard-2.21.6/picard.jar AddOrReplaceReadGroups I=bam.albomref/$prefix.sorted.bam O=bam.albomref/$prefix.RG.bam SORT_ORDER=coordinate RGID=alb03 RGPU=CBKVCANXX RGLB=Bachtrog RGPL=ILLUMINA RGSM=$prefix CREATE_INDEX=TRUE
 
 
 
