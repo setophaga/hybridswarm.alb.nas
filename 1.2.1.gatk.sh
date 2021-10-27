@@ -42,6 +42,6 @@ module load java
 /scratch/datmai/bin/000program_files/jre1.8.0_25/bin/java -jar $gatk \
 -T GenotypeGVCFs \
 -R $ref \
--V prefix.gatk.list \
+-V gvcf.gatk.list \
 -o alb03.nas00.vcf \
 -log $log/gvcf.intoVCF.log
