@@ -19,8 +19,8 @@ Analytical Pipeline:
      alb03.nas00.filtered.vcf
 1.3 allelefreq calculation with vcftools > SNPs that are different between parent1 and parent2 
       
-      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.list --freq --out nas00 
-      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.list --freq --out alb03 
+      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep nas00.prefix.list --freq --out nas00 #prefix of only nasuta individuals
+      vcftools --vcf alb03.nas00.filtered.vcf.recode.vcf --keep alb03.prefix.list --freq --out alb03  #prefix of only albomicans individuals
       
 1.4 clean up the frq out put to make:to make **alb03.nas00.diffs.csv** file - **1.4.alb03.nas00.fixed.diff.R** \
 or make **alb03.nas00.diffs0.3.csv** \
