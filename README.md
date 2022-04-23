@@ -1,9 +1,7 @@
 # Hybrid swarm Drosophila nasuta X Drosophila albomicans
 This direcotry has the pipeline for processing sequencing data in the hybrid swarm experiment \
-Wang et al. 2022. PNAS. Neo-sex chromosome evolution shapes sex-dependent asymmetrical introgression barrier. \
+Wang et al. 2022. PNAS. Neo-sex chromosome evolution shapes sex-dependent asymmetrical introgression barrier. 
 
-
-/Rcodes directory contains the R code involved in analyzing the data, generating figures, and includes a sub-directory with input data. 
 
 Analytical Pipeline: 
 
